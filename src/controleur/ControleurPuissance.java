@@ -12,7 +12,7 @@ import java.util.*;
 
 public class ControleurPuissance extends Controleur{
     private final Map<Joueur, Jeton> jetonDuJoueur=new HashMap<>();
-    private final Map<Joueur,Integer> nbRotation=new HashMap<>();
+    protected final Map<Joueur,Integer> nbRotation=new HashMap<>();
 
     public ControleurPuissance(Ihm ihm) {
         super(ihm);

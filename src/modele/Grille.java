@@ -37,6 +37,7 @@ public class Grille extends Plateau{
         }
     }
 
+
     /**
      * On crée une nouvelle grille identique a la première et en ensuite on appelle les méthodes servant a faire tourner la grille
      * @param sens correspond au sens de rotation
@@ -155,6 +156,23 @@ public class Grille extends Plateau{
             affichage+="\n";
         }
         return affichage;
+    }
+
+    public Set<Jeton> testRotation(int sens) throws CoupInvalideException {
+            gererRotation(sens);
+            Set<Jeton> lesJetons=partieTerminee();
+            if(lesJetons.size()==1) {
+               return lesJetons;
+        }
+        return null;
+    }
+
+
+    public Grille constructionVirtuelle(){
+        Grille virt=new Grille();
+        virt.nbJeton=this.nbJeton;
+        virt.grille=Arrays.copyOf(this.grille,taille);
+        return virt;
     }
 
 }
