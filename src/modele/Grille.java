@@ -1,14 +1,14 @@
 package modele;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public class Grille extends Plateau{
     private final int taille = 7;
     private int nbJeton;
-    private  Jeton[][] grille = new Jeton[taille][taille];
+    private Jeton[][] grille = new Jeton[taille][taille];
+    private Jeton[][] grilleVirtuelle = new Jeton[taille][taille];
     private int[] dernierJeton = new int[2];
+    private SortedMap<Integer, Set<CoupPuissance>> strategieRobot = new TreeMap<>();
 
     public Grille(){ }
 
@@ -37,6 +37,55 @@ public class Grille extends Plateau{
         }
     }
 
+    public void gererCoupRobot(int rotationJoueur, int rotationOrdinateur){
+        Jeton jaune = new Jeton("\u001B[33m●\u001B[0m");
+        Jeton rouge = new Jeton("\u001B[31m●\u001B[0m");
+
+        if (0<rotationOrdinateur) {
+            for (int i = 1; i <= 2; i++) {
+                grilleVirtuelle = Arrays.copyOf(grille, taille);
+                testRotation(i, grilleVirtuelle);
+            }
+        }
+
+        for (int i = 0; i < taille; i++) {
+            CoupPuissance coup = new CoupPuissance(i, jaune);
+
+            for (int j = 1; j <= 2; j++) {
+                grilleVirtuelle = Arrays.copyOf(grille, taille);
+                if (0<rotationOrdinateur) {
+                    testRotation(j, grilleVirtuelle);
+                    continue;
+                }
+                dernierJeton[grille[i].length()][i]
+                int priority = nbAligne()*2-1;
+                if(7<priority)
+                    priority=7;
+                Set<CoupPuissance> set = strategieRobot.get(priority);
+                set.add(coup));
+                strategieRobot.put((priority),set);
+            }
+        }
+
+        for (int i = 0; i < taille; i++) {
+            CoupPuissance coup = new CoupPuissance(i, rouge);
+
+            for (int j = 1; j <= 2; j++) {
+                grilleVirtuelle = Arrays.copyOf(grille, taille);
+                if (0<rotationJoueur) {
+                    testRotation(j, grilleVirtuelle);
+                    continue;
+                }
+                dernierJeton[grille[i].length()][i]
+                int priority = nbAligne()*2-2;
+                if(7<priority)
+                    priority=7;
+                Set<CoupPuissance> set = strategieRobot.get(priority);
+                set.add(coup);
+                strategieRobot.put((priority),set);
+            }
+        }
+    }
 
     /**
      * On crée une nouvelle grille identique a la première et en ensuite on appelle les méthodes servant a faire tourner la grille
@@ -97,19 +146,25 @@ public class Grille extends Plateau{
                 dernierJeton[0] = x;
                 dernierJeton[1] = y;
                 if(grille[x][y]!=null) {
-                    for (int i = -1; i <= 1; i++) {
-                        for (int j = -1; j <= 1; j++) {
-                            int res = analyseVictoire(dernierJeton[0] + j, dernierJeton[1] + i, j, i)
-                                    + analyseVictoire(dernierJeton[0] - j, dernierJeton[1] - i, -j, -i)
-                                    + 1;
-                            if (4 <= res)
-                                jetons.add(grille[x][y]);
-                        }
-                    }
+                   int res = nbAligne();
+                    if (4 <= res)
+                        jetons.add(grille[x][y]);
                 }
             }
         }
         return jetons;
+    }
+
+    public int nbAligne (){
+        int res=0;
+        for (int i = -1; i <= 1; i++) {
+            for (int j = -1; j <= 1; j++) {
+                res = analyseVictoire(dernierJeton[0] + j, dernierJeton[1] + i, j, i)
+                        + analyseVictoire(dernierJeton[0] - j, dernierJeton[1] - i, -j, -i)
+                        + 1;
+            }
+        }
+        return res;
     }
 
     /**
