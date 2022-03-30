@@ -35,6 +35,29 @@ public abstract class Ihm {
         return nb;
     }
 
+    public static int selectionMode (){
+        scanner = new Scanner(System.in);
+        int nb=0;
+        System.out.println("1 pour jouer à deux joueurs humain");
+        System.out.println("2 pour jouer en mode console");
+        String msg="Votre choix:";
+        System.out.print(msg);
+        while(scanner.hasNextLine()){
+            String ligne = scanner.nextLine();
+            Scanner scLoc = new Scanner(ligne);
+            if(!ligne.contains(" ") && scLoc.hasNextInt()){
+                nb=scLoc.nextInt();
+                if (1==nb || 2==nb) {
+                    System.out.println(spacing);
+                    break;
+                }
+            }
+            System.out.println("Erreur: le numéro doit être 1 ou 2 \n");
+            System.out.print(msg);
+        }
+        return nb;
+    }
+
     /**
      * Demande le nom du joueur
      * @param num correspond au numéro du joueur (joueur 1 ou 2)
@@ -138,6 +161,8 @@ public abstract class Ihm {
         }
         System.out.println(s);
     }
-
+    public  void afficherLeCoupJoue(String nom,String coup){
+        System.out.println(nom + ": le coup joué est "+coup);
+    }
 }
 

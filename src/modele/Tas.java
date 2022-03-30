@@ -1,8 +1,5 @@
 package modele;
 
-import java.lang.Boolean;
-
-
 /**
  * <p>La classe Tas représente l'état courant de la partie
  * Elle est caractérisée par un tableau. Chaque case du tableau enregistre le nombre d'allumettes de chaque tas.
@@ -39,14 +36,11 @@ public class Tas  extends Plateau{
 
     /**
      * Retourne vrai si la partie est terminée et faux sinon
-     * @return
+     * @return true si la partie est terminée et false sinon
      */
 
     public boolean partieTerminee() {
         return nbAllumette() == 0;
-
-
-
     }
 
     /**
@@ -73,7 +67,12 @@ public class Tas  extends Plateau{
     @Override
     public String toString() {
         String s="";
+        int nb=1;
         for (int nbAllumettes : lesTas) {
+            if(nb<10)
+                s+=" ";
+            s+=(nb++)+"  ";
+
             for (int i = 1; i <= nbAllumettes; i++) {
                 s+="| ";
             }
@@ -109,6 +108,13 @@ public class Tas  extends Plateau{
         else {
             coupMax = coup;
         }
+    }
+
+    public int getNbTas(){
+        return lesTas.length;
+    }
+    public int getCoupMax(){
+        return coupMax;
     }
 
 }

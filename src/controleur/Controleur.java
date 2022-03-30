@@ -18,10 +18,7 @@ public abstract class Controleur {
     /**
      * Enregistre les noms des joueurs et crée les joueurs
      */
-    protected void enregistrementNom(){
-        joueur1=new Joueur(ihm.demanderNom(1));
-        joueur2=new Joueur(ihm.demanderNom(2));
-    }
+    protected abstract void enregistrementNom();
 
     /**
      * Initialise le jeu
@@ -40,7 +37,7 @@ public abstract class Controleur {
     }
 
     /**
-     * Initialise un support de jeu, crée une file pour l'ordre des joueurs,
+     * Initialise un plateau de jeu, crée une file pour l'ordre des joueurs,
      * et lance la partie
      */
     protected abstract void initialisationPartie();
@@ -51,10 +48,12 @@ public abstract class Controleur {
      */
     protected abstract void affichageDebutTour(Joueur joueur);
 
+    protected abstract Coup getCoupJoueur(Joueur j) throws CoupInvalideException;
+
     /**
      * Traite le coup saisit par le joueur
      * Vérifie si le coup est valide et l'enregistre
-     * L'état du support sera mis à jour
+     * L'état du plateau sera mis à jour
      * @throws CoupInvalideException si le coup est invalide
      */
     protected abstract void traiterCoup (Joueur joueur)  throws CoupInvalideException;
@@ -68,6 +67,7 @@ public abstract class Controleur {
         ordreDesJoueurs.add(suivant);
         return suivant;
     }
+    protected abstract void affichageFinTour(Joueur j,Coup c);
 
     /**
      * gère le tour d'un joueur
@@ -81,6 +81,7 @@ public abstract class Controleur {
         while (true) {
             try {
                 traiterCoup(joueurActuel);
+
                 break;
             }
             catch (CoupInvalideException e){
@@ -88,14 +89,6 @@ public abstract class Controleur {
             }
         }
     }
-
-    /**
-     * retrouve le gagnant de la partie
-     * le gagnant de la partie se trouve à la fin du file car on vient de l'ajouter du fait qu'il vient de jouer
-     * Appelle gagnePartie() de la classe Joueur pour incrémenter son nombre de victoires
-     * @return le gagnant de la partie
-     */
-    //protected abstract <T> Joueur gagnantPartie(T ... j);
 
     /**
      * Teste si la partie est finie ou non

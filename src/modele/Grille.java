@@ -21,7 +21,7 @@ public class Grille extends Plateau{
     @Override
     public void gererCoup(Coup leCoup) throws CoupInvalideException {
         CoupPuissance coupPuissance=(CoupPuissance) leCoup;
-       int coup=coupPuissance.getColonne();
+       int coup=coupPuissance.getColonne()-1;
         if(coup<0 || taille<=coup) {
             throw new CoupInvalideException("Nombre invalide");
         }
@@ -57,7 +57,7 @@ public class Grille extends Plateau{
      * On crée une nouvelle grille après la rotation vers la droite de la grille initiale
      * @param nouv correspond a la copie de la grille
      */
-    public void rotationDroite(Jeton[][] nouv) throws CoupInvalideException {
+    private void rotationDroite(Jeton[][] nouv) throws CoupInvalideException {
         for(int c=taille-1;c>=0;c--){
             for(int l=taille-1;l>=0;l--){
                 if(nouv[c][l]!=null) {
@@ -73,7 +73,7 @@ public class Grille extends Plateau{
      * On crée une nouvelle grille après la rotation vers la gauche de la grille initiale
      * @param nouv correspond a la copie de la grille
      */
-    public void rotationGauche(Jeton[][] nouv) throws CoupInvalideException {
+    private void rotationGauche(Jeton[][] nouv) throws CoupInvalideException {
         for(int c=0;c<taille;c++){
             for(int l=0;l<taille;l++){
                 if(nouv[c][l]!=null) {

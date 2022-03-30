@@ -8,7 +8,6 @@ import modele.CoupPuissance;
 import modele.Coup;
 import vue.Ihm;
 import vue.IhmPuissance;
-
 import java.util.*;
 
 public class ControleurPuissance extends Controleur{
@@ -17,6 +16,11 @@ public class ControleurPuissance extends Controleur{
 
     public ControleurPuissance(Ihm ihm) {
         super(ihm);
+    }
+
+    @Override
+    protected void enregistrementNom() {
+
     }
 
     /**
@@ -59,6 +63,14 @@ public class ControleurPuissance extends Controleur{
         ihm.afficherTour(jetonDuJoueur.get(joueur).toString()+" "+joueur.getNom());
     }
 
+    @Override
+    protected Coup getCoupJoueur(Joueur j) throws CoupInvalideException {
+        return null;
+    }
+
+
+
+
     /**
      * On redéfinit la méthode traiterCoup pour le puissance 4
      * @param joueur est le joueur qui vient de jouer
@@ -76,6 +88,11 @@ public class ControleurPuissance extends Controleur{
         List<Integer> coup=(ihm.demanderCoup());
         Coup c=new CoupPuissance(coup.get(0),jetonDuJoueur.get(joueur));
             plateau.gererCoup(c);
+    }
+
+    @Override
+    protected void affichageFinTour(Joueur j, Coup c) {
+
     }
 
     /**
@@ -109,8 +126,7 @@ public class ControleurPuissance extends Controleur{
         ihm.afficherEtat(plateau.toString());
         if (lesJetonsGagnants.size()==1)
         {
-            Object[] jetonGagnant=lesJetonsGagnants.toArray();
-            ihm.afficherGagnant(gagnantPartie((Jeton)jetonGagnant[0]).getNom());
+            ihm.afficherGagnant(gagnantPartie(lesJetonsGagnants).getNom());
         }
         else
             ((IhmPuissance)ihm).afficherPartieNulle();
@@ -120,11 +136,13 @@ public class ControleurPuissance extends Controleur{
      * @param j jeton gagnant
      * @return le joueur qui a le jeton passé en paramètre
      */
-    private Joueur gagnantPartie(Jeton j) {
-        for (Joueur joueur : jetonDuJoueur.keySet()  ){
-            if (j.equals(jetonDuJoueur.get(joueur))){
-                joueur.gagnePartie();
-                return joueur;
+    protected Joueur gagnantPartie(Set<Jeton> j) {
+        for ( Jeton jeton : j ){
+            for (Joueur jj : jetonDuJoueur.keySet()){
+                if (jetonDuJoueur.get(jj).equals(jeton)){
+                    jj.gagnePartie();
+                    return jj;
+                }
             }
         }
         return null;

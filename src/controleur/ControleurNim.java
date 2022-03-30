@@ -1,9 +1,6 @@
 package controleur;
 
-import modele.CoupInvalideException;
-import modele.CoupNim;
-import modele.Joueur;
-import modele.Tas;
+import modele.*;
 import vue.Ihm;
 import vue.IhmNim;
 import java.util.List;
@@ -31,6 +28,11 @@ public class ControleurNim extends Controleur{
         enregistrerNbTas();
         enregistrementNom();
     }
+    @Override
+    protected void enregistrementNom(){
+        joueur1=new Humain(ihm.demanderNom(1));
+        joueur2=new Humain(ihm.demanderNom(2));
+    }
 
     /**
      * On redéfinit la méthode initialisationPartie pour le jeu de Nim
@@ -46,6 +48,12 @@ public class ControleurNim extends Controleur{
         partie();
     }
 
+    @Override
+    protected Coup getCoupJoueur(Joueur j) throws CoupInvalideException{
+        List<Integer> l=ihm.demanderCoup();
+        CoupNim coup = new CoupNim(l.get(0),l.get(1));
+        return coup;
+    }
     /**
      * On redéfinit la méthode traiterCoup pour le jeu de Nim
      * @param joueur est le joueur courant
@@ -53,9 +61,17 @@ public class ControleurNim extends Controleur{
      */
     @Override
     protected void traiterCoup(Joueur joueur) throws CoupInvalideException {
-        List<Integer> l=ihm.demanderCoup();
-        CoupNim coup = new CoupNim(l.get(0),l.get(1));
+       Coup coup=getCoupJoueur(joueur);
         plateau.gererCoup(coup);
+        affichageFinTour(joueur,coup);
+    }
+
+    @Override
+    protected void affichageFinTour(Joueur j,Coup coup) {
+        CoupNim c=(CoupNim)coup;
+        String s=c.getNumeroTas() +"  "+ c.getNbAllumettes();
+        ihm.afficherLeCoupJoue(j.getNom(),s);
+
     }
 
     /**
@@ -67,20 +83,6 @@ public class ControleurNim extends Controleur{
         ihm.afficherEtat(plateau.toString());
         ihm.afficherTour(joueur.getNom());
    }
-
-    /**
-     * On redéfinit la méthode gagnantPartie pour le jeu de Nim
-     * @param j correspond aux type Joueur
-     * @param <T> utilisé pour avec des joueurs
-     * @return le gagnant de la partie
-     */
-    /*@Override
-    protected <T> Joueur gagnantPartie(T ... j) {
-        joueurSuivant();
-        Joueur gagnant=joueurSuivant();
-        gagnant.gagnePartie();
-        return gagnant;
-    }*/
 
     /**
      * @return le gagnant de la partie
@@ -100,6 +102,7 @@ public class ControleurNim extends Controleur{
         while(!((Tas)plateau).partieTerminee()){
             tour();
         }
+        ihm.afficherEtat(plateau.toString());
         ihm.afficherGagnant(gagnantPartie().getNom());
     }
 

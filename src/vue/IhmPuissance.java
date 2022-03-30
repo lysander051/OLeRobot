@@ -116,11 +116,15 @@ public class IhmPuissance extends Ihm{
                 break;
             }
             System.out.println("Erreur: le numéro de grille doit être un entier entre 1 et 7 \n");
-           /* System.out.println(joueur);*/
             System.out.print(msg);
         }
         l.add(nb);
         return l;
+    }
+
+    @Override
+    public void afficherLeCoupJoue(String nom, String coup) {
+
     }
 
     /**
