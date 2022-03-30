@@ -1,17 +1,12 @@
 package controleur;
 
-import modele.CoupInvalideException;
-import modele.Grille;
-import modele.Jeton;
-import modele.Joueur;
-import modele.CoupPuissance;
-import modele.Coup;
+import modele.*;
 import vue.Ihm;
 import vue.IhmPuissance;
 import java.util.*;
 
 public class ControleurPuissance extends Controleur{
-    private final Map<Joueur, Jeton> jetonDuJoueur=new HashMap<>();
+    protected final Map<Joueur, Jeton> jetonDuJoueur=new HashMap<>();
     protected final Map<Joueur,Integer> nbRotation=new HashMap<>();
 
     public ControleurPuissance(Ihm ihm) {
@@ -20,6 +15,8 @@ public class ControleurPuissance extends Controleur{
 
     @Override
     protected void enregistrementNom() {
+        joueur1=new Humain(ihm.demanderNom(1));
+        joueur2=new Humain(ihm.demanderNom(2));
 
     }
 
@@ -64,8 +61,16 @@ public class ControleurPuissance extends Controleur{
     }
 
     @Override
-    protected Coup getCoupJoueur(Joueur j) throws CoupInvalideException {
-        return null;
+    protected Coup getCoupJoueur(Joueur joueur) throws CoupInvalideException {
+        if(nbRotation.get(joueur)>=0){
+            int choix=((IhmPuissance)ihm).choixMouvement(nbRotation.get(joueur));
+            if(choix==1/*avec*/){
+                return new CoupPuissance(-choix,jetonDuJoueur.get(joueur));
+            }
+        }
+        List<Integer> coup=(ihm.demanderCoup());
+        Coup c=new CoupPuissance(coup.get(0),jetonDuJoueur.get(joueur));
+        return c;
     }
 
 
@@ -78,20 +83,34 @@ public class ControleurPuissance extends Controleur{
      */
     @Override
     protected void traiterCoup (Joueur joueur)  throws CoupInvalideException {
-        if(nbRotation.get(joueur)>=0){
-            int choix=((IhmPuissance)ihm).choixMouvement(nbRotation.get(joueur));
-            if(choix==1/*avec*/){
-                traiterCoupavecRotation(joueur);
-                return;
-            }
+        CoupPuissance coup = (CoupPuissance) getCoupJoueur(joueur);
+        if (coup.getColonne()>0) {
+            plateau.gererCoup(coup);
         }
-        List<Integer> coup=(ihm.demanderCoup());
-        Coup c=new CoupPuissance(coup.get(0),jetonDuJoueur.get(joueur));
-            plateau.gererCoup(c);
+        if(joueur instanceof Humain){
+            traiterCoupavecRotation(joueur);
+        }
+        affichageFinTour(joueur,coup);
     }
 
+
     @Override
-    protected void affichageFinTour(Joueur j, Coup c) {
+    protected void affichageFinTour(Joueur j,Coup coup) {
+        CoupPuissance c=(CoupPuissance) coup;
+        String s="une rotation";
+        if(c.getColonne()>0) {
+            s = Integer.toString(c.getColonne());
+        }
+        else{
+            if(c.getColonne()==-1){
+                s+=" à droite";
+            }
+            else{
+                s+=" à gauche";
+            }
+        }
+
+        ihm.afficherLeCoupJoue(j.getNom(),s);
 
     }
 
@@ -147,5 +166,7 @@ public class ControleurPuissance extends Controleur{
         }
         return null;
     }
+
+
 
 }

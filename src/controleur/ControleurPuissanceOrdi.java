@@ -2,10 +2,6 @@ package controleur;
 
 import modele.*;
 import vue.Ihm;
-import vue.IhmPuissance;
-
-import java.util.Arrays;
-import java.util.List;
 import java.util.Set;
 
 public class ControleurPuissanceOrdi extends ControleurPuissance{
@@ -21,23 +17,11 @@ public class ControleurPuissanceOrdi extends ControleurPuissance{
         joueur2=new Ordinateur();
 
     }
-
-    protected boolean testRotation(Grille g,Joueur j) throws CoupInvalideException {
-        boolean test=false;
-        for(int i=0;i<2;i++){
-            g.gererRotation(i);
-            Set<Jeton> lesJetons=g.partieTerminee();
-            if(lesJetons.size()==1 &&  gagnantPartie(lesJetons).equals(j) ){
-                test=true;
-                break;
-            }
-        }
-        return test;
-    }
     @Override
-    protected void traiterCoup (Joueur joueur)  throws CoupInvalideException {
+    protected Coup getCoupJoueur (Joueur joueur)  throws CoupInvalideException {
+        Coup coup;
         if (joueur instanceof Humain) {
-            super.traiterCoup(joueur);
+            coup=super.getCoupJoueur(joueur);
         } else {
             Grille grilleVirtuelle= ((Grille)plateau).constructionVirtuelle();
             if(nbRotation.get(joueur)>0) {
@@ -45,16 +29,21 @@ public class ControleurPuissanceOrdi extends ControleurPuissance{
                     Set<Jeton> lesJetons = grilleVirtuelle.testRotation(i);
                     if (lesJetons!=null && gagnantPartie(lesJetons).equals(joueur)) {
                         ((Grille) plateau).gererRotation(i);
-                        return;
+                         coup=new CoupPuissance(-i,jetonDuJoueur.get(joueur));
                     }
                 }
             }
-
-            Coup coup =grilleVirtuelle.gererCoupRobot(nbRotation.get(joueur1),nbRotation.get(joueur2));
-            plateau.gererCoup(coup);
-
-            return;
+             coup =grilleVirtuelle.gererCoupRobot(nbRotation.get(joueur1),nbRotation.get(joueur2));
         }
+        return coup;
+    }
+
+    @Override
+    protected void affichageDebutTour(Joueur joueur) {
+        if(joueur instanceof Humain){
+            super.affichageDebutTour(joueur);
+        }
+
     }
 
 }

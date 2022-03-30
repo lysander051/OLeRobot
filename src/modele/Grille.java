@@ -36,15 +36,19 @@ public class Grille extends Plateau{
             }
         }
     }
+    /*
+    MAXIME : IL FAUT QUE TU RENVOIES UN RANDOM POUR LE COUP JOUE (
+    genre dans score 5 il y a 4 coup tu dois faire un random d'un des 4 coups
+    */
 
-    public void gererCoupRobot(int rotationJoueur, int rotationOrdinateur){
+    public Coup gererCoupRobot(int rotationJoueur, int rotationOrdinateur) throws CoupInvalideException{
         Jeton jaune = new Jeton("\u001B[33m●\u001B[0m");
         Jeton rouge = new Jeton("\u001B[31m●\u001B[0m");
 
         if (0<rotationOrdinateur) {
             for (int i = 1; i <= 2; i++) {
                 grilleVirtuelle = Arrays.copyOf(grille, taille);
-                testRotation(i, grilleVirtuelle);
+                testRotation(i);
             }
         }
 
@@ -54,7 +58,7 @@ public class Grille extends Plateau{
             for (int j = 1; j <= 2; j++) {
                 grilleVirtuelle = Arrays.copyOf(grille, taille);
                 if (0<rotationOrdinateur) {
-                    testRotation(j, grilleVirtuelle);
+                    testRotation(j);
                     continue;
                 }
                 dernierJeton[grille[i].length()][i]
@@ -62,7 +66,7 @@ public class Grille extends Plateau{
                 if(7<priority)
                     priority=7;
                 Set<CoupPuissance> set = strategieRobot.get(priority);
-                set.add(coup));
+                set.add(coup);
                 strategieRobot.put((priority),set);
             }
         }
@@ -73,7 +77,7 @@ public class Grille extends Plateau{
             for (int j = 1; j <= 2; j++) {
                 grilleVirtuelle = Arrays.copyOf(grille, taille);
                 if (0<rotationJoueur) {
-                    testRotation(j, grilleVirtuelle);
+                    testRotation(j);
                     continue;
                 }
                 dernierJeton[grille[i].length()][i]
@@ -85,6 +89,7 @@ public class Grille extends Plateau{
                 strategieRobot.put((priority),set);
             }
         }
+        return null;
     }
 
     /**

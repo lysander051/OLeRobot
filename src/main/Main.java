@@ -24,7 +24,7 @@ public class Main {
                 controleur=new ControleurPuissance(ihm);
             }
             else{
-                controleur=new ControleurPuissance(ihm);
+                controleur=new ControleurPuissanceOrdi(ihm);
             }
 
         }

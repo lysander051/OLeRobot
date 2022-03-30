@@ -122,10 +122,6 @@ public class IhmPuissance extends Ihm{
         return l;
     }
 
-    @Override
-    public void afficherLeCoupJoue(String nom, String coup) {
-
-    }
 
     /**
      * Affiche un message si la partie se fini sur une égalité entre les joueurs
