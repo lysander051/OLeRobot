@@ -8,7 +8,7 @@ public class Grille extends Plateau{
     private Jeton[][] grille = new Jeton[taille][taille];
     private Jeton[][] grillecopie = new Jeton[taille][taille];
     private int[] dernierJeton = new int[2];
-    private SortedMap<Integer, Set<CoupPuissance>> strategieRobot = new TreeMap<>();
+    private SortedMap<Integer, List<Integer>> strategieRobot = new TreeMap<>();
 
     public Grille(){ }
 
@@ -32,82 +32,227 @@ public class Grille extends Plateau{
             if (grille[coup][i]==null){
                 nbJeton++;
                 grille[coup][i]=coupPuissance.getJeton();
+                dernierJeton[0]=coup;
+                dernierJeton[1]=i;
                 break;
             }
         }
     }
+
+    public int[] nbAligneEssai (){
+        int[] resultat=new int[9];
+
+        int indice=0;
+        for (int i = -1; i <= 1; i++) {
+            for (int j = -1; j <= 1; j++) {
+                int  res = analyseVictoire(dernierJeton[0] + j, dernierJeton[1] + i, j, i)
+                        + analyseVictoire(dernierJeton[0] - j, dernierJeton[1] - i, -j, -i)
+                        + 1;
+
+                resultat[indice]=res;
+                indice++;
+
+            }
+        }
+        return resultat;
+    }
+
+
     /*
     MAXIME : IL FAUT QUE TU RENVOIES UN RANDOM POUR LE COUP JOUE (
     genre dans score 5 il y a 4 coup tu dois faire un random d'un des 4 coups
     */
 
-    public Coup gererCoupRobot(int rotationJoueur, int rotationOrdinateur) throws CoupInvalideException{
+    public Jeton[][] copyGrille(Jeton[][] j){
+        Jeton[][] copie=new Jeton[8][8];
+        for(int i=0;i<taille;i++){
+            copie[i]=Arrays.copyOf(j[i],taille);
+        }
+        return copie;
+    }
+
+    public Coup gererCoupRobot(int rotationHumain, int rotationOrdinateur) throws CoupInvalideException{
+
         Jeton jaune = new Jeton("\u001B[33m●\u001B[0m");
         Jeton rouge = new Jeton("\u001B[31m●\u001B[0m");
-        grillecopie= Arrays.copyOf(grille, taille);
-
-        if (0<rotationOrdinateur) {
-            for (int i = 1; i <= 2; i++) {
+        grillecopie= copyGrille(grille);
+       // System.out.println("grille copie\n"+affichagetab(grillecopie));
+       /* if (0<rotationOrdinateur) {
+            for (int i = 0; i <= 1; i++) {
                 grille = grillecopie;
-                if(testRotation(i)!=null && testRotation(i).contains(jaune) && !testRotation(i).contains(rouge));
+                if(testRotation(i)!=null && testRotation(i).contains(jaune) ){
+                    gererRotation(i);
+
+
+                }
                     //retourne la rotation
             }
-        }
 
-        for (int i = 1; i <= taille; i++) {
-            System.out.println(i);
-            CoupPuissance coup = new CoupPuissance(i, jaune);
-            grille = grillecopie;
-            gererCoup(coup);
+            grille copie = vraie grille
+            grille = grille copie
+            grille.gererCoup = grille + 1
+            priority= nb de pion aligné avec le coup joué
+            rotation à la fin
+        }*/
+        //dernierJeton[0]=0;
+       // dernierJeton[1]=0;
+        for (int a = 1; a <= taille; a++) {
+            //System.out.println(i);
+            CoupPuissance coup = new CoupPuissance(a, jaune);
+            grille = copyGrille(grillecopie);
+           // System.out.println("grille\n"+affichagetab(grille));
+            try {
+                gererCoup(coup);
+            }
+            catch (CoupInvalideException e){
+                continue;
+            }
+          // System.out.println("grille apres coup\n"+affichagetab(grille));
+           // System.out.println("grille copie\n"+affichagetab(grillecopie));
             int priority = nbAligne()*2-1;
             if(7<priority)
                 priority=7;
-            if (0<rotationOrdinateur) {
-                if(testRotation(i)!=null && !testRotation(0).contains(rouge))
+          /*  if (0<rotationOrdinateur) {
+                Set<Jeton> test=testRotation(0);
+                System.out.println(test.contains(rouge));
+
+                if(test.contains(rouge))
+                    continue;
+            }*/
+            grille = copyGrille(grillecopie);
+         //   System.out.println("grille nouvelle\n"+affichagetab(grille));
+            try {
+                gererCoup(coup);
+            }
+            catch (CoupInvalideException e){
+                continue;
+            }
+           // System.out.println("grille apres coup\n"+affichagetab(grille));
+           /* if (0<rotationOrdinateur) {
+                Set<Jeton> test=testRotation(1);
+                if(test.contains(rouge))
                     continue;
             }
-            grille = grillecopie;
-            gererCoup(coup);
-            if (0<rotationOrdinateur) {
-                if(testRotation(i)!=null && !testRotation(1).contains(rouge))
-                    continue;
+           /* dernierJeton[0]=a-1;
+            dernierJeton[1]= grille[a-1].length;*/
+            List<Integer> liste=new ArrayList<>();
+            if (strategieRobot.get(priority)!=null )
+                liste = strategieRobot.get(priority);
+            if(!liste.contains(coup.getColonne())){
+                liste.add(coup.getColonne());
+                strategieRobot.put((priority),liste);
             }
-            dernierJeton[0]=i-1;
-            dernierJeton[1]= grille[i-1].length;
-            Set<CoupPuissance> set=new HashSet<>();
-            if (strategieRobot.get(priority)!=null)
-                set = strategieRobot.get(priority);
-            set.add(coup);
-            strategieRobot.put((priority),set);
+
         }
 
         for (int i = 1; i <= taille; i++) {
             CoupPuissance coup = new CoupPuissance(i, rouge);
-            grille = grillecopie;
-            gererCoup(coup);
+            grille = copyGrille(grillecopie);
+            try {
+                gererCoup(coup);
+            }
+
+            catch (CoupInvalideException e){
+                continue;
+            }
+           // System.out.println("grille apres coup\n"+affichagetab(grille));
             int priority = nbAligne()*2-2;
+            System.out.println("priority  "+priority);
             if(6<priority) priority=6;
-            if(priority<1) priority=1;
-            if (0<rotationOrdinateur) {
-                if(testRotation(i)!=null && !testRotation(0).contains(rouge))
+           // if(priority<1) priority=1;
+            if(priority<1) continue;
+
+            /*if (0<rotationOrdinateur) {
+                Set<Jeton> test=testRotation(0);
+                if(test.contains(rouge) && priority!=6)
                     continue;
+            }*/
+            grille = copyGrille(grillecopie);
+            try {
+                gererCoup(coup);
             }
-            grille = grillecopie;
-            gererCoup(coup);
-            if (0<rotationOrdinateur) {
-                if(testRotation(i)!=null && !testRotation(1).contains(rouge))
+            catch (CoupInvalideException e){
+                continue;
+            }
+          /*  if (0<rotationOrdinateur) {
+                Set<Jeton> test=testRotation(1);
+                if(test.contains(rouge) && priority!=6)
                     continue;
+            }*/
+           /* dernierJeton[0]=i-1;
+            dernierJeton[1]= grille[i-1].length;*/
+            List<Integer> liste=new ArrayList<>();
+            if (strategieRobot.get(priority)!=null )
+                liste = strategieRobot.get(priority);
+            if(!liste.contains(coup.getColonne())){
+                liste.add(coup.getColonne());
+                strategieRobot.put((priority),liste);
             }
-            dernierJeton[0]=i-1;
-            dernierJeton[1]= grille[i-1].length;
-            Set<CoupPuissance> set=new HashSet<>();
-            if (strategieRobot.get(priority)!=null)
-                set = strategieRobot.get(priority);
-            set.add(coup);
-            strategieRobot.put((priority),set);
         }
-        System.out.println(strategieRobot);
-        return null;
+        System.out.println("haha");
+        //System.out.println(strategieRobot);
+        // affichage map
+        for (int i : strategieRobot.keySet()){
+            System.out.println(i+"  "+strategieRobot.get(i).toString());
+        }
+        int indice=7;
+        while(indice>0)
+        {
+            if(strategieRobot.get(indice)!=null){
+                List<Integer> listeCoup=strategieRobot.get(indice);
+                Random rand = new Random();
+                int coupHasard = rand.nextInt(listeCoup.size());
+                CoupPuissance coupAJoue=new CoupPuissance(listeCoup.get(coupHasard),jaune);
+                listeCoup.remove(coupHasard);
+                if(CoupAPrendre(rotationHumain,rouge))
+                    return coupAJoue;
+
+                if(listeCoup.size()==0){
+                    indice--;
+                }
+
+            }
+            else {
+                indice--;
+            }
+
+
+        }
+
+       return null;
+    }
+
+    public boolean CoupAPrendre (int nbRotHumain,Jeton rouge) throws CoupInvalideException {
+        if(nbRotHumain>0) {
+            for (int i = 0; i < 2; i++) {
+                Set<Jeton> test=testRotation(i);
+                if(test.contains(rouge))
+                    return false;
+                }
+            }
+        return true;
+
+    }
+
+    public String affichagetab(Jeton[][]a){
+        String affichage="";
+        for (int i=1;i<=taille;i++){
+            affichage+=" "+i;
+        }
+        affichage+="\n";
+        for (int i=taille-1; 0<=i; i--) {
+            affichage+="|";
+            for (int j=0; j<taille; j++) {
+                if (a[j][i]==null){
+                    affichage+="_|";
+                }
+                else{
+                    affichage+=a[j][i].toString()+"|";
+                }
+            }
+            affichage+="\n";
+        }
+        return affichage;
     }
 
     /**
@@ -168,26 +313,36 @@ public class Grille extends Plateau{
             for (int y = 0; y < taille - 1; y++) {
                 dernierJeton[0] = x;
                 dernierJeton[1] = y;
-                if(grille[x][y]!=null) {
-                   int res = nbAligne();
-                    if (4 <= res)
+                if (grille[x][y] != null) {
+                    int res = nbAligne();
+                    if (4 <= res) {
                         jetons.add(grille[x][y]);
+                        break;
+                    }
                 }
+
             }
         }
         return jetons;
     }
 
     public int nbAligne (){
-        int res=0;
+       int resMax=0;
+
+
         for (int i = -1; i <= 1; i++) {
             for (int j = -1; j <= 1; j++) {
-                res = analyseVictoire(dernierJeton[0] + j, dernierJeton[1] + i, j, i)
+               int  res = analyseVictoire(dernierJeton[0] + j, dernierJeton[1] + i, j, i)
                         + analyseVictoire(dernierJeton[0] - j, dernierJeton[1] - i, -j, -i)
                         + 1;
+
+                if(res>resMax){
+                    resMax=res;
+                }
+
             }
         }
-        return res;
+        return resMax;
     }
 
     /**
@@ -238,11 +393,11 @@ public class Grille extends Plateau{
 
     public Set<Jeton> testRotation(int sens) throws CoupInvalideException {
             gererRotation(sens);
-            Set<Jeton> lesJetons=partieTerminee();
-            if(lesJetons.size()==1) {
-               return lesJetons;
+            Set<Jeton> lesJetons=new HashSet<>();
+            if(partieTerminee().size()==1) {
+               lesJetons=partieTerminee();
         }
-        return null;
+       return lesJetons;
     }
 
 

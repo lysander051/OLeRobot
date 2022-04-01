@@ -16,4 +16,9 @@ public class CoupPuissance extends Coup{
     public Jeton getJeton() {
         return jeton;
     }
+
+    @Override
+    public String toString(){
+        return Integer.toString(colonne);
+    }
 }

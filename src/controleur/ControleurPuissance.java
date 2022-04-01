@@ -65,15 +65,27 @@ public class ControleurPuissance extends Controleur{
         if(nbRotation.get(joueur)>=0){
             int choix=((IhmPuissance)ihm).choixMouvement(nbRotation.get(joueur));
             if(choix==1/*avec*/){
-                return new CoupPuissance(-choix,jetonDuJoueur.get(joueur));
+                return new CoupPuissance(-2,jetonDuJoueur.get(joueur));
+                // -2 veut dire le joueur joue une rotation
             }
         }
         List<Integer> coup=(ihm.demanderCoup());
         Coup c=new CoupPuissance(coup.get(0),jetonDuJoueur.get(joueur));
         return c;
     }
-
-
+    @Override
+    protected void traiterCoup (Joueur joueur)  throws CoupInvalideException {
+        if(nbRotation.get(joueur)>=0){
+            int choix=((IhmPuissance)ihm).choixMouvement(nbRotation.get(joueur));
+            if(choix==1/*avec*/){
+                traiterCoupavecRotation(joueur);
+                return;
+            }
+        }
+        List<Integer> coup=(ihm.demanderCoup());
+        Coup c=new CoupPuissance(coup.get(0),jetonDuJoueur.get(joueur));
+        plateau.gererCoup(c);
+    }
 
 
     /**
@@ -81,17 +93,22 @@ public class ControleurPuissance extends Controleur{
      * @param joueur est le joueur qui vient de jouer
      * @throws CoupInvalideException si le coup est invalide
      */
-    @Override
-    protected void traiterCoup (Joueur joueur)  throws CoupInvalideException {
+
+   /* protected void traiterCoup (Joueur joueur)  throws CoupInvalideException {
         CoupPuissance coup = (CoupPuissance) getCoupJoueur(joueur);
         if (coup.getColonne()>0) {
             plateau.gererCoup(coup);
         }
-        if(joueur instanceof Humain){
-            traiterCoupavecRotation(joueur);
+       else{
+           if(coup.getColonne()>-2) { // pas humain
+               ((Grille)plateau).gererRotation(-coup.getColonne());
+           }
+           else {
+               traiterCoupavecRotation(joueur);
+           }
         }
         affichageFinTour(joueur,coup);
-    }
+    }*/
 
 
     @Override
@@ -166,6 +183,8 @@ public class ControleurPuissance extends Controleur{
         }
         return null;
     }
+
+
 
 
 

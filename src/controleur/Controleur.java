@@ -129,5 +129,8 @@ public abstract class Controleur {
                 joueur2.getNbPartiesGagnees(),
                 gagnantJeu());
     }
+    public Set<Integer> fonction(){
+        return null;
+    }
 
 }

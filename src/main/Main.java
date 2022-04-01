@@ -3,9 +3,15 @@ package main;
 import controleur.*;
 import vue.*;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class Main {
     public static void main(String[] args) {
-        int jeu=Ihm.selectionJeu();
+
+
+
+       int jeu=Ihm.selectionJeu();
         int mode=Ihm.selectionMode();
         Controleur controleur;
         Ihm ihm;
@@ -28,6 +34,18 @@ public class Main {
             }
 
         }
+       /* Set<Integer> a=new HashSet<>();
+        System.out.println(a.contains(2));
+
+        System.out.println(controleur.fonction());
+        if(controleur.fonction()!=null && !controleur.fonction().contains(2)){
+            System.out.println("haha");
+        }
+        else{
+            System.out.println("merde");
+        }
+
+        */
         controleur.jouer();
 
     }

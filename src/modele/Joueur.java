@@ -1,6 +1,7 @@
 package modele;
 
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * Created by kahlem .
@@ -50,5 +51,8 @@ public abstract class Joueur {
     public int hashCode() {
         return Objects.hash(nom, nbPartiesGagnees);
     }
+
+
+
 }
 
