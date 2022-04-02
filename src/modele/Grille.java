@@ -71,6 +71,21 @@ public class Grille extends Plateau{
         return copie;
     }
 
+    public int gererRotationRobot() throws CoupInvalideException {
+        int sens=-2;
+        Jeton jaune = new Jeton("\u001B[33m●\u001B[0m");
+        Jeton rouge = new Jeton("\u001B[31m●\u001B[0m");
+        grillecopie = copyGrille(grille);
+
+        for (int i = 0; i <= 1; i++) {
+           grille=copyGrille(grillecopie);
+            if (testRotation(i).contains(jaune)) {
+               return i;
+            }
+        }
+        return sens;
+    }
+
     public Coup gererCoupRobot(int rotationHumain, int rotationOrdinateur) throws CoupInvalideException{
 
         Jeton jaune = new Jeton("\u001B[33m●\u001B[0m");
@@ -189,23 +204,34 @@ public class Grille extends Plateau{
                 strategieRobot.put((priority),liste);
             }
         }
+        grille = copyGrille(grillecopie);
         System.out.println("haha");
         //System.out.println(strategieRobot);
         // affichage map
         for (int i : strategieRobot.keySet()){
             System.out.println(i+"  "+strategieRobot.get(i).toString());
         }
+        int coupSauvegarde=-1;
+        int first=0;
         int indice=7;
         while(indice>0)
         {
             if(strategieRobot.get(indice)!=null){
+                grille = copyGrille(grillecopie);
                 List<Integer> listeCoup=strategieRobot.get(indice);
                 Random rand = new Random();
                 int coupHasard = rand.nextInt(listeCoup.size());
+                if(first==0){
+                    coupSauvegarde=coupHasard;
+                    first=1;
+                }
                 CoupPuissance coupAJoue=new CoupPuissance(listeCoup.get(coupHasard),jaune);
                 listeCoup.remove(coupHasard);
-                if(CoupAPrendre(rotationHumain,rouge))
+                gererCoup(coupAJoue);
+                if(CoupAPrendre(rotationHumain,rouge)) {
+                    System.out.println("on prend dans le score " + indice);
                     return coupAJoue;
+                }
 
                 if(listeCoup.size()==0){
                     indice--;
@@ -219,7 +245,7 @@ public class Grille extends Plateau{
 
         }
 
-       return null;
+       return new CoupPuissance(coupSauvegarde,jaune);
     }
 
     public boolean CoupAPrendre (int nbRotHumain,Jeton rouge) throws CoupInvalideException {
@@ -392,11 +418,16 @@ public class Grille extends Plateau{
     }
 
     public Set<Jeton> testRotation(int sens) throws CoupInvalideException {
+        Jeton[][] copie=copyGrille(grille);
             gererRotation(sens);
             Set<Jeton> lesJetons=new HashSet<>();
+        System.out.println("avant " );
             if(partieTerminee().size()==1) {
                lesJetons=partieTerminee();
+                System.out.println("apres");
+
         }
+            grille=copyGrille(copie);
        return lesJetons;
     }
 

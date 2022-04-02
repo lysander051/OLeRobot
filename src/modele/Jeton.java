@@ -18,7 +18,7 @@ public class Jeton {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Jeton jeton = (Jeton) o;
-        return Objects.equals(couleur, jeton.couleur);
+        return couleur.equals(jeton.couleur);
     }
 
     @Override

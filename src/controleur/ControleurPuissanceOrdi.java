@@ -25,15 +25,21 @@ public class ControleurPuissanceOrdi extends ControleurPuissance{
         } else {
             Grille grilleVirtuelle= ((Grille)plateau).constructionVirtuelle();
             if(nbRotation.get(joueur)>0) {
-                for (int i = 0; i < 2; i++) {
+                int sens=grilleVirtuelle.gererRotationRobot();
+                if(sens!=-2){
+                    ((Grille) plateau).gererRotation(sens);
+                    coup=new CoupPuissance(-sens,jetonDuJoueur.get(joueur));
+                    affichageFinTour(joueur,coup);
+                    return;
+                }
+                /*for (int i = 0; i < 2; i++) {
                     Set<Jeton> lesJetons = grilleVirtuelle.testRotation(i);
                     if (lesJetons!=null && gagnantPartie(lesJetons)!=null && gagnantPartie(lesJetons).equals(joueur)) {
                         ((Grille) plateau).gererRotation(i);
                         coup=new CoupPuissance(-i,jetonDuJoueur.get(joueur));
-                        affichageFinTour(joueur,coup);
-                         return;
+
                     }
-                }
+                }*/
             }
             grilleVirtuelle= ((Grille)plateau).constructionVirtuelle();
             coup= grilleVirtuelle.gererCoupRobot(nbRotation.get(joueur1),nbRotation.get(joueur2));
