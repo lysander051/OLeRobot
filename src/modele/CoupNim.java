@@ -35,7 +35,6 @@ public class CoupNim extends Coup{
         return nbAllumettes;
     }
 
-
 }
 
 

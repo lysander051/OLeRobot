@@ -1,5 +1,8 @@
 package modele;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * <p>La classe Tas représente l'état courant de la partie
  * Elle est caractérisée par un tableau. Chaque case du tableau enregistre le nombre d'allumettes de chaque tas.
@@ -113,8 +116,23 @@ public class Tas  extends Plateau{
     public int getNbTas(){
         return lesTas.length;
     }
+
     public int getCoupMax(){
         return coupMax;
+    }
+
+    public List<Coup> getListeCoup(){
+        List<Coup> lesCoups=new ArrayList<>();
+        for (int i=1;i<=getNbTas();i++)
+        {
+            for(int poss=1;poss<=nbAllumettes(i);poss++){
+                if(poss<=getCoupMax()) {
+                    Coup coup = new CoupNim(i, poss);
+                    lesCoups.add(coup);
+                }
+            }
+        }
+        return lesCoups;
     }
 
 }

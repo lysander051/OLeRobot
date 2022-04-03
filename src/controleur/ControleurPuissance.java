@@ -17,7 +17,6 @@ public class ControleurPuissance extends Controleur{
     protected void enregistrementNom() {
         joueur1=new Humain(ihm.demanderNom(1));
         joueur2=new Humain(ihm.demanderNom(2));
-
     }
 
     /**
@@ -61,7 +60,7 @@ public class ControleurPuissance extends Controleur{
     }
 
     @Override
-    protected Coup getCoupJoueur(Joueur joueur) throws CoupInvalideException {
+    protected Coup getCoupJoueur(Joueur joueur){
         if(nbRotation.get(joueur)>=0){
             int choix=((IhmPuissance)ihm).choixMouvement(nbRotation.get(joueur));
             if(choix==1/*avec*/){
@@ -73,6 +72,12 @@ public class ControleurPuissance extends Controleur{
         Coup c=new CoupPuissance(coup.get(0),jetonDuJoueur.get(joueur));
         return c;
     }
+
+    /**
+     * On redéfinit la méthode traiterCoup pour le puissance 4
+     * @param joueur est le joueur qui vient de jouer
+     * @throws CoupInvalideException si le coup est invalide
+     */
     @Override
     protected void traiterCoup (Joueur joueur)  throws CoupInvalideException {
         if(nbRotation.get(joueur)>=0){
@@ -86,30 +91,6 @@ public class ControleurPuissance extends Controleur{
         Coup c=new CoupPuissance(coup.get(0),jetonDuJoueur.get(joueur));
         plateau.gererCoup(c);
     }
-
-
-    /**
-     * On redéfinit la méthode traiterCoup pour le puissance 4
-     * @param joueur est le joueur qui vient de jouer
-     * @throws CoupInvalideException si le coup est invalide
-     */
-
-   /* protected void traiterCoup (Joueur joueur)  throws CoupInvalideException {
-        CoupPuissance coup = (CoupPuissance) getCoupJoueur(joueur);
-        if (coup.getColonne()>0) {
-            plateau.gererCoup(coup);
-        }
-       else{
-           if(coup.getColonne()>-2) { // pas humain
-               ((Grille)plateau).gererRotation(-coup.getColonne());
-           }
-           else {
-               traiterCoupavecRotation(joueur);
-           }
-        }
-        affichageFinTour(joueur,coup);
-    }*/
-
 
     @Override
     protected void affichageFinTour(Joueur j,Coup coup) {
@@ -126,9 +107,7 @@ public class ControleurPuissance extends Controleur{
                 s+=" à gauche";
             }
         }
-
         ihm.afficherLeCoupJoue(j.getNom(),s);
-
     }
 
     /**
@@ -183,9 +162,5 @@ public class ControleurPuissance extends Controleur{
         }
         return null;
     }
-
-
-
-
 
 }

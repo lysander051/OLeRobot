@@ -38,8 +38,8 @@ public abstract class Ihm {
     public static int selectionMode (){
         scanner = new Scanner(System.in);
         int nb=0;
-        System.out.println("1 pour jouer à deux joueurs humain");
-        System.out.println("2 pour jouer en mode console");
+        System.out.println("1 pour jouer en mode console");
+        System.out.println("2 pour jouer contre l'ordinateur");
         String msg="Votre choix:";
         System.out.print(msg);
         while(scanner.hasNextLine()){
@@ -95,7 +95,6 @@ public abstract class Ihm {
      * @param msg correspond au message affiché au joueur
      */
     public void afficherErreurCoup(String msg){
-        //System.out.println(spacing);
         System.out.println("Erreur: "+msg+", rejouez \n");
     }
     /**
@@ -165,5 +164,6 @@ public abstract class Ihm {
     public  void afficherLeCoupJoue(String nom,String coup){
         System.out.println(nom + ": le coup joué est "+coup);
     }
+
 }
 

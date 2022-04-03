@@ -17,7 +17,7 @@ public class IhmPuissance extends Ihm{
         scanner =new Scanner(System.in);
         boolean rep=false;
         System.out.println(spacing);
-        String msg="Voulez vous ajouter une contrainte? (O)ui ou (N)on : ";
+        String msg="Voulez vous ajouter une rotation? (O)ui ou (N)on : ";
         System.out.print(msg);
         while(scanner.hasNextLine()){
             String valeur= scanner.nextLine();
@@ -42,7 +42,7 @@ public class IhmPuissance extends Ihm{
         scanner = new Scanner(System.in);
         int nb = -1;
         if (0 < movement) {
-            System.out.println("Il vous reste " + movement + ": \n 0 pas de rotation \n 1 faire une rotation");
+            System.out.println("Il vous reste " + movement + " rotation(s) : \n 0 pas de rotation \n 1 faire une rotation");
             String msg = "Votre choix :";
             System.out.print(msg);
             while (scanner.hasNextLine()) {
@@ -104,9 +104,7 @@ public class IhmPuissance extends Ihm{
         scanner = new Scanner(System.in);
         List<Integer> l=new ArrayList<>();
         int nb = -1;
-      //  String joueur = couleur + " " + nom+ ": à vous de jouer";
         String msg="Entrer un numéro de grille entre 1 et 7: ";
-        //System.out.println(joueur);
         System.out.print(msg);
         while(scanner.hasNextLine()){
             String ligne = scanner.nextLine();

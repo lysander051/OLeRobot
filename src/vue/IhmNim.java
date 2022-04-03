@@ -54,7 +54,7 @@ public class IhmNim extends Ihm{
                     break;
                 }
             }
-            System.out.println("Erreur: le coup max doit être un entier positif \n ");
+            System.err.println("Erreur: le coup max doit être un entier positif \n ");
             System.out.print(msg);
         }
         return nb;
@@ -104,6 +104,5 @@ public class IhmNim extends Ihm{
         }
         return l;
     }
-
 
 }

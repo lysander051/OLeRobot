@@ -1,7 +1,6 @@
 package modele;
 
 import java.util.Objects;
-import java.util.Set;
 
 /**
  * Created by kahlem .

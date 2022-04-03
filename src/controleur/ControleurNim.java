@@ -49,7 +49,7 @@ public class ControleurNim extends Controleur{
     }
 
     @Override
-    protected Coup getCoupJoueur(Joueur j) throws CoupInvalideException{
+    protected Coup getCoupJoueur(Joueur j){
         List<Integer> l=ihm.demanderCoup();
         CoupNim coup = new CoupNim(l.get(0),l.get(1));
         return coup;
