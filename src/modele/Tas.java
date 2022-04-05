@@ -113,14 +113,26 @@ public class Tas  extends Plateau{
         }
     }
 
+    /**
+     *
+     * @return la longueur du tas de la partie
+     */
     public int getNbTas(){
         return lesTas.length;
     }
 
+    /**
+     *
+     * @return le nombre d'allumettes maximum qu'on peut retirer pour cette partie
+     */
     public int getCoupMax(){
         return coupMax;
     }
 
+    /**
+     * Ajoute dans la liste des coups le coup possible pour chaque tas a chaque tour
+     * @return la liste des coups possibles
+     */
     public List<Coup> getListeCoup(){
         List<Coup> lesCoups=new ArrayList<>();
         for (int i=1;i<=getNbTas();i++)

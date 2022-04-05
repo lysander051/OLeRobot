@@ -12,8 +12,7 @@ public class CoupNim extends Coup{
 
     /**
      * Constructeur permettant de créer un coup
-     *
-     * @param numeroTas        numéro de la ligne
+     * @param numeroTas numéro de la ligne
      * @param nbAllumettes nombre d'allumettes à enlever
      */
     public CoupNim(int numeroTas, int nbAllumettes) {

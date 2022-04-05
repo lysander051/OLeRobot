@@ -28,6 +28,10 @@ public class ControleurNim extends Controleur{
         enregistrerNbTas();
         enregistrementNom();
     }
+
+    /**
+     * Enregistre les noms des joueurs de la partie de jeu pour un jeu a 2 joueurs
+     */
     @Override
     protected void enregistrementNom(){
         joueur1=new Humain(ihm.demanderNom(1));
@@ -48,12 +52,18 @@ public class ControleurNim extends Controleur{
         partie();
     }
 
+    /**
+     *
+     * @param j correspond au joueur qui va jouer son coup
+     * @return le coup joué par le joueur
+     */
     @Override
     protected Coup getCoupJoueur(Joueur j){
         List<Integer> l=ihm.demanderCoup();
         CoupNim coup = new CoupNim(l.get(0),l.get(1));
         return coup;
     }
+
     /**
      * On redéfinit la méthode traiterCoup pour le jeu de Nim
      * @param joueur est le joueur courant
@@ -66,12 +76,16 @@ public class ControleurNim extends Controleur{
         affichageFinTour(joueur,coup);
     }
 
+    /**
+     * Affiche le coup jouer par le joueur
+     * @param j correspond au joueur qui vient de jouer
+     * @param coup correspond au coip que le joueur vient de faire
+     */
     @Override
     protected void affichageFinTour(Joueur j,Coup coup) {
         CoupNim c=(CoupNim)coup;
         String s=c.getNumeroTas() +"  "+ c.getNbAllumettes();
         ihm.afficherLeCoupJoue(j.getNom(),s);
-
     }
 
     /**

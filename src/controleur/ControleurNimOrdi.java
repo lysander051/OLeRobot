@@ -18,12 +18,21 @@ public class ControleurNimOrdi extends ControleurNim{
         super(ihm);
     }
 
+    /**
+     * Enregistre le nom du joueur 1 et créer un oridnateur pour un jeu contre l'ordinateur
+     */
     @Override
     protected void enregistrementNom(){
         joueur1=new Humain(ihm.demanderNom(1));
         joueur2=new Ordinateur();
     }
 
+    /**
+     * On teste si c'es tau joueur de jouer, dans ce cas on lui propose de jouer son coup, sinon l'ordinateur choisit un coup
+     * aléatoire qu'il peut jouer en prenant en compte si besoin les contraintes de jeu
+     * @param j correspond au joueur qui va jouer son coup
+     * @return le coup joué par le joueur ou l'ordinateur
+     */
     @Override
     protected Coup getCoupJoueur(Joueur j){
         if( j instanceof Humain){
@@ -41,6 +50,10 @@ public class ControleurNimOrdi extends ControleurNim{
         }
     }
 
+    /**
+     * Affiche le message indiquant que c'est au joueur de jouer son coup si c'est le cas
+     * @param joueur est le joueur courant
+     */
     @Override
     protected void affichageDebutTour(Joueur joueur) {
         if(joueur instanceof Humain){
