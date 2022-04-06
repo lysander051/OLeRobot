@@ -169,5 +169,9 @@ public abstract class Ihm {
         System.out.println(nom + ": le coup joué est "+coup);
     }
 
+    public void separation(){
+        System.out.println(spacing);
+    }
+
 }
 

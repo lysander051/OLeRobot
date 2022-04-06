@@ -58,6 +58,9 @@ public class ControleurNimOrdi extends ControleurNim{
         if(joueur instanceof Humain){
             super.affichageDebutTour(joueur);
         }
+        else{
+           ihm.separation();
+        }
     }
 
 }

@@ -56,6 +56,9 @@ public class ControleurPuissanceOrdi extends ControleurPuissance{
         if(joueur instanceof Humain){
             super.affichageDebutTour(joueur);
         }
+        else{
+            ihm.separation();
+        }
     }
 
 }

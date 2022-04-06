@@ -140,7 +140,7 @@ public class Grille extends Plateau{
                 listeCoup.remove(coupHasard);
                 gererCoup(coupAJoue);
                 if(CoupAPrendre(rotationHumain,rouge)) {
-                    System.out.println("on prend dans le score " + indice);
+                    //System.out.println("on prend dans le score " + indice);
                     return coupAJoue;
                 }
                 if(listeCoup.size()==0){
@@ -302,7 +302,7 @@ public class Grille extends Plateau{
         Set<Jeton> lesJetons=new HashSet<>();
         if(partieTerminee().size()==1) {
             lesJetons=partieTerminee();
-            System.out.println("mpadresy = "+lesJetons);
+           // System.out.println("mpadresy = "+lesJetons);
         }
         grille=copyGrille(copie);
         return lesJetons;
