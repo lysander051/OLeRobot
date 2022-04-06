@@ -48,7 +48,7 @@ public class ControleurNim extends Controleur{
         partie();
     }
 
-    @Override
+
     protected Coup getCoupJoueur(Joueur j){
         List<Integer> l=ihm.demanderCoup();
         CoupNim coup = new CoupNim(l.get(0),l.get(1));

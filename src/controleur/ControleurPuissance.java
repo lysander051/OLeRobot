@@ -59,11 +59,11 @@ public class ControleurPuissance extends Controleur{
         ihm.afficherTour(jetonDuJoueur.get(joueur).toString()+" "+joueur.getNom());
     }
 
-    @Override
+   /* @Override
     protected Coup getCoupJoueur(Joueur joueur){
         if(nbRotation.get(joueur)>=0){
             int choix=((IhmPuissance)ihm).choixMouvement(nbRotation.get(joueur));
-            if(choix==1/*avec*/){
+            if(choix==1/*avec*//*){
                 return new CoupPuissance(-2,jetonDuJoueur.get(joueur));
                 // -2 veut dire le joueur joue une rotation
             }
@@ -71,7 +71,7 @@ public class ControleurPuissance extends Controleur{
         List<Integer> coup=(ihm.demanderCoup());
         Coup c=new CoupPuissance(coup.get(0),jetonDuJoueur.get(joueur));
         return c;
-    }
+    }*/
 
     /**
      * On redéfinit la méthode traiterCoup pour le puissance 4

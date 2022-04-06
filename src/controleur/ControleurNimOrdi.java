@@ -5,7 +5,6 @@ import modele.Joueur;
 import modele.Coup;
 import modele.Humain;
 import modele.Ordinateur;
-import modele.CoupInvalideException;
 import modele.Tas;
 
 import vue.Ihm;

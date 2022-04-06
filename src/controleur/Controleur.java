@@ -48,7 +48,7 @@ public abstract class Controleur {
      */
     protected abstract void affichageDebutTour(Joueur joueur);
 
-    protected abstract Coup getCoupJoueur(Joueur j) throws CoupInvalideException;
+
 
     /**
      * Traite le coup saisit par le joueur
@@ -129,8 +129,6 @@ public abstract class Controleur {
                 joueur2.getNbPartiesGagnees(),
                 gagnantJeu());
     }
-    public Set<Integer> fonction(){
-        return null;
-    }
+
 
 }
