@@ -13,6 +13,9 @@ public class ControleurPuissance extends Controleur{
         super(ihm);
     }
 
+    /**
+     * On redéfinit la méthode enregistrementNom pour le jeu du puissance 4
+     */
     @Override
     protected void enregistrementNom() {
         joueur1=new Humain(ihm.demanderNom(1));
@@ -92,6 +95,11 @@ public class ControleurPuissance extends Controleur{
         plateau.gererCoup(c);
     }
 
+    /**
+     * Affiche les messages durant le tour du joueur ainsi que le coup jouer a la fin de son tour
+     * @param j correspond au joueur courant
+     * @param coup au coup que le joueur a fait
+     */
     @Override
     protected void affichageFinTour(Joueur j,Coup coup) {
         CoupPuissance c=(CoupPuissance) coup;

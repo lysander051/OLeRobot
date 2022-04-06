@@ -39,6 +39,11 @@ public class Grille extends Plateau{
         }
     }
 
+    /**
+     * Fait une copie case par case de la grille de jeu pour l'utiliser dans une autre méthode
+     * @param j est un jeton de la grille
+     * @return la grille copiée
+     */
     public Jeton[][] copyGrille(Jeton[][] j){
         Jeton[][] copie=new Jeton[8][8];
         for(int i=0;i<taille;i++){
@@ -47,6 +52,11 @@ public class Grille extends Plateau{
         return copie;
     }
 
+    /**
+     * On copie la grille de jeu courante
+     * @return le sens de rotation choisi par le robot
+     * @throws CoupInvalideException si le coup est invalide
+     */
     public int gererRotationRobot() throws CoupInvalideException {
         int sens=-2;
         Jeton jaune = new Jeton("\u001B[33m●\u001B[0m");

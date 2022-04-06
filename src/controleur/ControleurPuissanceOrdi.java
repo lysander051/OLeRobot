@@ -10,12 +10,20 @@ public class ControleurPuissanceOrdi extends ControleurPuissance{
         super(ihm);
     }
 
+    /**
+     * On redéfinit la méthode enregistrementNom pour le jeu du puissance 4 a un joueur contre l'IA
+     */
     @Override
     protected void enregistrementNom(){
         joueur1=new Humain(ihm.demanderNom(1));
         joueur2=new Ordinateur();
     }
 
+    /**
+     * On redéfinit la méthode traiterCoup pour le puissance 4 a 1 joueur contre l'IA
+     * @param joueur est le joueur qui vient de jouer
+     * @throws CoupInvalideException si le coup saisi est invalide
+     */
     @Override
     protected void traiterCoup (Joueur joueur)  throws CoupInvalideException {
        Coup coup;
@@ -39,6 +47,10 @@ public class ControleurPuissanceOrdi extends ControleurPuissance{
         }
     }
 
+    /**
+     * On redéfinit la méthode affichageDebutTour pour le puissance 4 a 1 joueur contre l'IA
+     * @param joueur est le joueur courant
+     */
     @Override
     protected void affichageDebutTour(Joueur joueur) {
         if(joueur instanceof Humain){

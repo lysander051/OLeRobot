@@ -35,10 +35,14 @@ public abstract class Ihm {
         return nb;
     }
 
+    /**
+     * Demande au joueur s'il souahite jouer contre un autre joueur ou contre l'ordinateur
+     * @return le choix fait par le joueur
+     */
     public static int selectionMode (){
         scanner = new Scanner(System.in);
         int nb=0;
-        System.out.println("1 pour jouer en mode console");
+        System.out.println("1 pour jouer avec 2 joueurs");
         System.out.println("2 pour jouer contre l'ordinateur");
         String msg="Votre choix:";
         System.out.print(msg);
