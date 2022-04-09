@@ -2,13 +2,15 @@ package controleur;
 
 
 import modele.Joueur;
-import modele.Coup;
 import modele.Humain;
 import modele.Ordinateur;
 import modele.Tas;
-
+import modele.Coup;
+import modele.CoupNim;
 import vue.Ihm;
-import java.util.*;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Random;
 
 
 public class ControleurNimOrdi extends ControleurNim{
@@ -18,7 +20,7 @@ public class ControleurNimOrdi extends ControleurNim{
     }
 
     /**
-     * Enregistre le nom du joueur 1 et créer un oridnateur pour un jeu contre l'ordinateur
+     * Enregistre le nom du joueur 1 et crée un ordinateur pour un jeu contre l'ordinateur
      */
     @Override
     protected void enregistrementNom(){
@@ -27,8 +29,8 @@ public class ControleurNimOrdi extends ControleurNim{
     }
 
     /**
-     * On teste si c'es tau joueur de jouer, dans ce cas on lui propose de jouer son coup, sinon l'ordinateur choisit un coup
-     * aléatoire qu'il peut jouer en prenant en compte si besoin les contraintes de jeu
+     * On teste si c'est au joueur de jouer, dans ce cas on lui propose de jouer son coup, sinon l'ordinateur choisit un coup
+     * aléatoire qu'il peut jouer en prenant en compte si besoin les contraintes du jeu
      * @param j correspond au joueur qui va jouer son coup
      * @return le coup joué par le joueur ou l'ordinateur
      */
@@ -38,7 +40,7 @@ public class ControleurNimOrdi extends ControleurNim{
             return super.getCoupJoueur(j);
         }
         else {
-            List<Coup> listeCoup =((Tas)plateau).getListeCoup();
+            List<Coup> listeCoup =getListeCoup();
             Random rand = new Random();
             int tailleListe = listeCoup.size();
             int coupHasard=0;
@@ -61,6 +63,25 @@ public class ControleurNimOrdi extends ControleurNim{
         else{
            ihm.separation();
         }
+    }
+
+    /**
+     * Ajoute dans la liste des coups le coup possible à chaque tas
+     * @return la liste des coups possibles
+     */
+    private List<Coup> getListeCoup(){
+        Tas tas=(Tas)plateau;
+        List<Coup> lesCoups=new ArrayList<>();
+        for (int i=1;i<=tas.getNbTas();i++)
+        {
+            for(int poss=1;poss<=tas.nbAllumettes(i);poss++){
+                if(poss<=tas.getCoupMax()) {
+                    Coup coup = new CoupNim(i, poss);
+                    lesCoups.add(coup);
+                }
+            }
+        }
+        return lesCoups;
     }
 
 }

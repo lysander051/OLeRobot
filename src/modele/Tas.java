@@ -1,7 +1,5 @@
 package modele;
 
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * <p>La classe Tas représente l'état courant de la partie
@@ -127,24 +125,6 @@ public class Tas  extends Plateau{
      */
     public int getCoupMax(){
         return coupMax;
-    }
-
-    /**
-     * Ajoute dans la liste des coups le coup possible pour chaque tas a chaque tour
-     * @return la liste des coups possibles
-     */
-    public List<Coup> getListeCoup(){
-        List<Coup> lesCoups=new ArrayList<>();
-        for (int i=1;i<=getNbTas();i++)
-        {
-            for(int poss=1;poss<=nbAllumettes(i);poss++){
-                if(poss<=getCoupMax()) {
-                    Coup coup = new CoupNim(i, poss);
-                    lesCoups.add(coup);
-                }
-            }
-        }
-        return lesCoups;
     }
 
 }

@@ -1,6 +1,9 @@
 package controleur;
 
-import modele.*;
+import modele.Coup;
+import modele.CoupInvalideException;
+import modele.Joueur;
+import modele.Plateau;
 import vue.Ihm;
 import java.util.*;
 
@@ -48,8 +51,6 @@ public abstract class Controleur {
      */
     protected abstract void affichageDebutTour(Joueur joueur);
 
-
-
     /**
      * Traite le coup saisit par le joueur
      * Vérifie si le coup est valide et l'enregistre
@@ -67,6 +68,10 @@ public abstract class Controleur {
         ordreDesJoueurs.add(suivant);
         return suivant;
     }
+
+    /**
+     * affiche ce que le joueur a joué
+     */
     protected abstract void affichageFinTour(Joueur j,Coup c);
 
     /**
@@ -129,6 +134,5 @@ public abstract class Controleur {
                 joueur2.getNbPartiesGagnees(),
                 gagnantJeu());
     }
-
 
 }

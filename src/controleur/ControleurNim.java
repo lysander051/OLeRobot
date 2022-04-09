@@ -1,6 +1,11 @@
 package controleur;
 
-import modele.*;
+import modele.Coup;
+import modele.CoupInvalideException;
+import modele.CoupNim;
+import modele.Tas;
+import modele.Joueur;
+import modele.Humain;
 import vue.Ihm;
 import vue.IhmNim;
 import java.util.List;
@@ -52,7 +57,6 @@ public class ControleurNim extends Controleur{
         partie();
     }
 
-
     /**
      *
      * @param j correspond au joueur qui va jouer son coup
@@ -79,7 +83,7 @@ public class ControleurNim extends Controleur{
     /**
      * Affiche le coup jouer par le joueur
      * @param j correspond au joueur qui vient de jouer
-     * @param coup correspond au coip que le joueur vient de faire
+     * @param coup correspond au coup que le joueur vient de faire
      */
     @Override
     protected void affichageFinTour(Joueur j,Coup coup) {

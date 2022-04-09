@@ -165,6 +165,9 @@ public abstract class Ihm {
         System.out.println(s);
     }
 
+    /**
+     * affiche le coup joué
+     */
     public  void afficherLeCoupJoue(String nom,String coup){
         System.out.println(nom + ": le coup joué est "+coup);
     }

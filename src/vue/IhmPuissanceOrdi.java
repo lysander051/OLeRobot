@@ -24,6 +24,7 @@ public class IhmPuissanceOrdi extends IhmPuissance {
      * @param partiegagne2 correspond au nombre de parties gagnées par le joueur 2
      * @param gagnant correspond au nom du gagnant de la partie ou ex-aequo en cas d'égalité
      */
+    @Override
     public void afficherGagnantJeu(String nom1, String nom2, int partiegagne1, int partiegagne2, String gagnant) {
         System.out.println(spacing);
         String s = "Nombre de victoire : \n " + nom1 + " : " + partiegagne1 + "\n " + nom2 + " : " + partiegagne2 + "\n \n";

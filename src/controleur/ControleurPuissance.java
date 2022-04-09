@@ -1,9 +1,17 @@
 package controleur;
 
-import modele.*;
+
+import modele.Coup;
+import modele.CoupInvalideException;
+import modele.CoupPuissance;
+import modele.Grille;
+import modele.Joueur;
+import modele.Humain;
+import modele.Jeton;
 import vue.Ihm;
 import vue.IhmPuissance;
 import java.util.*;
+
 
 public class ControleurPuissance extends Controleur{
     protected final Map<Joueur, Jeton> jetonDuJoueur=new HashMap<>();
@@ -62,20 +70,6 @@ public class ControleurPuissance extends Controleur{
         ihm.afficherTour(jetonDuJoueur.get(joueur).toString()+" "+joueur.getNom());
     }
 
-   /* @Override
-    protected Coup getCoupJoueur(Joueur joueur){
-        if(nbRotation.get(joueur)>=0){
-            int choix=((IhmPuissance)ihm).choixMouvement(nbRotation.get(joueur));
-            if(choix==1/*avec*//*){
-                return new CoupPuissance(-2,jetonDuJoueur.get(joueur));
-                // -2 veut dire le joueur joue une rotation
-            }
-        }
-        List<Integer> coup=(ihm.demanderCoup());
-        Coup c=new CoupPuissance(coup.get(0),jetonDuJoueur.get(joueur));
-        return c;
-    }*/
-
     /**
      * On redéfinit la méthode traiterCoup pour le puissance 4
      * @param joueur est le joueur qui vient de jouer
@@ -96,7 +90,7 @@ public class ControleurPuissance extends Controleur{
     }
 
     /**
-     * Affiche les messages durant le tour du joueur ainsi que le coup jouer a la fin de son tour
+     * Affiche le coup joué a la fin du tour du joueur
      * @param j correspond au joueur courant
      * @param coup au coup que le joueur a fait
      */
